@@ -143,14 +143,3 @@ A tarde é mais curta que a manhã, por isso a Parte 2 de cada dia é mais leve.
 
 A comparação entre as duas provas mostra o ganho de cada aluno e de cada turma, e também permite comparar as abordagens "fazer → entender" (Turma A) e "entender → fazer" (Turma B).
 
----
-
-## Checklist antes do curso (até 06/11)
-
-- [ ] Power BI Desktop atualizado em todas as máquinas do laboratório do CEDTEC (Windows 64 bits).
-- [ ] Bases de dados fictícias do curso copiadas em pastas separadas por turma.
-- [ ] Demonstração de publicação no serviço do Power BI testada pelo professor.
-- [ ] Provas inicial e final impressas para as duas turmas.
-- [ ] Arquivos de checkpoint dos dias 1 a 4 preparados.
-- [ ] Projetor testado na sala e no laboratório.
-- [ ] Slides do dia abertos no Google Slides em sala e no laboratório.
