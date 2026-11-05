@@ -10,6 +10,7 @@
 | **Turma A** | Professor(a): Renzo Fraga — abordagem **fazer → entender** (laboratório primeiro) |
 | **Turma B** | Professor(a): Israel Magalhães — abordagem **entender → fazer** (sala primeiro) |
 | **Material** | Apostila *Power BI e DAX para Manutenção* (PBD-261025-A), capítulos 1 a 5 |
+| **Slides de aula** | [Dia 1](https://docs.google.com/presentation/d/1EF9YTwnIJhE1y74Y4rWrBgkNtuJkHy5Yr-jDhq9KBQI/edit) · [Dia 2](https://docs.google.com/presentation/d/1n5hAA5j8gh_5PBSiWSWA1jNnU0LsQd9sWq3XPWeEHio/edit) · [Dia 3](https://docs.google.com/presentation/d/1-j-eqKUC7aSFCWVncrPhuGOmydcPdNsd3V_vvpYfnbM/edit) · [Dia 4](https://docs.google.com/presentation/d/1rQ0uB3ecZxh4SwMXKSHwDD4WSrZkGRgnzAamFLGIfeo/edit) · [Dia 5](https://docs.google.com/presentation/d/1O_VUaaP5VKYxLydsZMwh2XfZoHIwlYB6c9sPnd-vzUs/edit) (Google Slides, acesso restrito aos professores) |
 
 ---
 
