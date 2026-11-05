@@ -7,8 +7,8 @@
 | **Período** | 09 a 13 de novembro de 2026 (segunda a sexta) |
 | **Carga horária** | 40 horas — 8 h por dia (08:00 às 16:00) |
 | **Horário** | Aulas das 08:00 às 12:00 e das 13:00 às 15:45 · fechamento das 15:45 às 16:00 · almoço das 12:00 às 13:00 |
-| **Turma A** | Professor(a): _a definir_ — abordagem **fazer → entender** (laboratório primeiro) |
-| **Turma B** | Professor(a): _a definir_ — abordagem **entender → fazer** (sala primeiro) |
+| **Turma A** | Professor(a): Renzo Fraga — abordagem **fazer → entender** (laboratório primeiro) |
+| **Turma B** | Professor(a): Israel Magalhães — abordagem **entender → fazer** (sala primeiro) |
 | **Material** | Apostila *Power BI e DAX para Manutenção* (PBD-261025-A), capítulos 1 a 5 |
 
 ---
