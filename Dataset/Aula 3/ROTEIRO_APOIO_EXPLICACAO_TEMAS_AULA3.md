@@ -1,228 +1,233 @@
-# Roteiro de Apoio para Explicação dos Temas — Aula 3 (Guia do Professor)
+# Roteiro de Apoio para Explicação dos Temas — Aula 3 (Slide a Slide)
 **Curso:** Power BI e DAX para Manutenção (CEDTEC Guarapari · Samarco)  
-**Escopo:** Capítulo 3 Completo (Seções 3.1 a 3.9 — *O painel que responde perguntas*)  
-**Arquivos de Dados de Referência (`Dataset/Aula 3/`):**
-- [`Dataset_PowerBI_Manutencao.xlsx`](./Dataset_PowerBI_Manutencao.xlsx) *(Modelo Estrela Principal)*
-- [`OS_Marco_Auditoria.csv`](./OS_Marco_Auditoria.csv) *(48 OS de março = 92,0 horas)*
-- [`Alocacao_Tecnicos_OS.csv`](./Alocacao_Tecnicos_OS.csv) *(63 registros de alocação de técnicos — Caso 3.9)*
+**Apresentação Oficial:** [`Slides/Power BI e DAX para Manutenção — Dia 3 · O painel que responde perguntas.pptx`](../../Slides/Power%20BI%20e%20DAX%20para%20Manuten%C3%A7%C3%A3o%20%E2%80%94%20Dia%203%20%C2%B7%20O%20painel%20que%20responde%20perguntas.pptx) *(26 Slides — Seções 3.2 a 3.9)*  
+**Objetivo deste Guia:** Acompanhar exatamente a ordem dos **26 slides** da apresentação do Dia 3, fornecendo ao professor o discurso de sala, as analogias de manutenção, os exemplos de quadro branco e o gabarito das perguntas.
 
 ---
 
-## Estrutura de Condução da Aula 3 em Sala
+## Mapa dos 26 Slides da Aula 3
 
 ```
 ┌────────────────────────────────────────────────────────────────────────────┐
-│ PARTE 1 (MANHÃ — 2h): DO MODELO AOS VISUAIS (Seções 3.1 a 3.6)             │
-│ • 3.1 e 3.2: Fato × Dimensão, Esquema Estrela e a Válvula do Filtro Único │
-│ • 3.3: Hierarquias (Área > Equipamento) e ocultação de chaves técnicas     │
-│ • 3.4: Jogo "Pergunta da Manutenção ➔ Visual Ideal" e leitura em "Z"       │
-│ • 3.5 e 3.6: Barras, Linhas, Cartão e Matriz com Semáforo Condicional      │
-└────────────────────────────────────┬───────────────────────────────────────┘
-                                     ▼
-┌────────────────────────────────────────────────────────────────────────────┐
-│ PARTE 2 (TARDE — 1h20): INTERATIVIDADE, NUVEM E AUDITORIA (Seções 3.7-3.9) │
-│ • 3.7: Segmentação, Painel Filtros (3 níveis) e Filtrar × Realçar          │
-│ • 3.8: Publicação, Espaço de Trabalho, Relatório × Dashboard e Gateways    │
-│ • 3.9: Caso 1 ("Horas em Dobro": 92h ➔ 131,5h) e Caso 2 (Parou no dia 14) │
+│ ABERTURA (Slides 1 a 3): Pergunta do RA-01, Objetivos e Cronograma         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 3.2 (Slides 4 a 8): Relacionamentos, Direção Único e Conjuntos       │
+│ • S05: Barras da mesma altura | S06: *:1 Único | S07: Ambas | S08: ∩ e ∪   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 3.3 · 3.4 (Slides 9 a 12): Hierarquias e Escolha do Visual           │
+│ • S10: Pátio › EM-01, EM-02, CN-01 | S11: 4 Famílias | S12: Teste Rápido   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 3.5 · 3.6 (Slides 13 a 17): Gráficos, Cartões e Matriz com Semáforo  │
+│ • S14: Empilhado × Clusterizado | S15: Soma Nº OS | S16-17: Forno 54% e Cor│
+├────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 3.7 · 3.8 (Slides 18 a 21): Filtros, Interações e Publicação         │
+│ • S19: 4 Controles de Filtro | S20: Desktop × Serviço | S21: TI Samarco    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ BLOCO 3.9 (Slides 22 a 26): Caso "Horas em Dobro" (131,5h vs 92,0h)        │
 └────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-# PARTE 1: Explicando Relacionamentos, Hierarquias e Visuais (Seções 3.1 a 3.6)
+# ABERTURA (Slides 1 a 3)
 
-### 1.1. Retomada de Conjuntos no Modelo: Fato, Dimensão e Cardinalidade (3.1 e 3.2)
-- **Pergunta de Abertura do Dia 3:**
-  > *"Quantas horas o resfriador RA-01 parou em março, e essa indisponibilidade está subindo ou caindo?"*
-- **Como Conectar o Dia 2 ao Dia 3 na Lousa:**
-  - Ontem limpamos as tabelas e separamos quem registra **eventos** (**Tabela Fato `OS`**) de quem descreve **cadastros** (**Tabela Dimensão `Equipamentos` e `Calendario`**).
-  - Mas duas tabelas soltas dentro do Power BI são como dois conjuntos desconectados: se você colocar `Área` (da tabela `Equipamentos`) e `Horas Paradas` (da tabela `OS`) num gráfico sem ligar as duas, o que aparece na tela?
-  - **Mostre o sintoma das "Barras da Mesma Altura":** Todas as áreas mostram o mesmo valor (total geral repetido), porque o filtro de Área não tem ponte para chegar nas OS!
+### Slide 1 — Capa e Pergunta do Dia
+- **Texto do Slide:** *"Pergunta do dia: Quantas horas o RA-01 parou em março, e isso está subindo ou caindo?"*
+- **Como Conduzir na Sala:**
+  - Mostre que essa única frase do gerente esconde **duas perguntas** de naturezas diferentes:
+    1. *"Quantas horas o RA-01 parou em março?"* ➔ Pede **um número exato** filtrado em um ativo e um mês (**Cartão**: `16,5 h`).
+    2. *"Isso está subindo ou caindo?"* ➔ Pede **acompanhamento no tempo** de janeiro a março (**Gráfico de linhas**: `6,5 h ➔ 11,0 h ➔ 16,5 h`, mostrando que está subindo!).
+
+### Slides 2 e 3 — Objetivos e Cronograma do Dia 3
+- Destaque que a manhã cobre **Seções 3.2 a 3.6** (relacionamentos, hierarquias e construção dos visuais principais) e a tarde cobre **Seções 3.7 a 3.9** (segmentações, interações, publicação e o caso prático das horas em dobro).
+
+---
+
+# BLOCO 3.2: Relacionamentos e Direção do Filtro (Slides 4 a 8)
+
+### Slide 4 e Slide 5 — Situação: "Por que todas as barras de horas por área têm a mesma altura?"
+- **Como Explicar:**
+  - Todo mundo que monta o primeiro painel sem configurar o modelo passa por isso: coloca `Área` (da tabela `Equipamentos`) no Eixo X e `Horas Paradas` (da tabela `OS`) no Eixo Y, e o gráfico desenha um "muro" onde todas as áreas mostram exatamente o mesmo valor!
+  - **Causa:** As tabelas `OS` e `Equipamentos` entraram no modelo sem ligação. Quando o Power BI vai calcular a barra da *Britagem*, ele não sabe quais OS pertencem à Britagem e devolve o **total geral da tabela inteira** para cada barra!
 
 ![Esquema Estrela](./imagens/fig_3_03_esquema_estrela.png)
-*Guia Visual 1 (Figura 3.3): O Esquema Estrela — a Fato `OS` no centro ligada às Dimensões pela chave.*
+*Guia Visual 1 (Figura 3.3): Sem a linha ligando Equipamentos à OS, o filtro de Área não chega nas horas paradas.*
 
-- **Como Explicar os 3 Elementos da Linha do Relacionamento:**
-  1. **O `1` e o `*` (Cardinalidade Muitos para Um):**
-     - Na tabela `Equipamentos`, cada TAG (`BR-01`, `MO-01`) aparece **1 única vez**.
-     - Na tabela `OS`, o mesmo TAG aparece **muitas vezes (`*`)**, uma para cada falha no ano.
-  2. **A Seta no Meio da Linha (Direção do Filtro Cruzado `Único`):**
-     - **Analogia da Válvula de Retenção (*Check Valve*):** O filtro sai da Dimensão (`1`) e desce para filtrar a Fato (`*`). Quando você escolhe a área `"Britagem"`, o filtro passa pela seta e deixa na soma apenas as OS daquelas máquinas. O caminho inverso fica bloqueado.
-     - *Por que não usar "Ambas"?* Se você ligar uma terceira tabela (ex: Técnicos ligados à Área e às OS) com filtro nas duas direções, fecha-se um anel (dois caminhos diferentes para o mesmo filtro) e o Power BI trava ou calcula errado.
-  3. **Linha Contínua vs Linha Tracejada (Relacionamento Ativo vs Inativo):**
-     - Entre `Calendario` e `OS` existem três datas possíveis (`Data de Abertura`, `Data de Encerramento` e `Data Programada`).
-     - Só **uma** relação pode ficar ativa por padrão (linha contínua: `Data de Abertura`). As outras ficam tracejadas (inativas) esperando uma função DAX (`USERELATIONSHIP`, que veremos no Dia 5) para serem acionadas.
+---
+
+### Slide 6 — Ideia Central: "O relacionamento leva o filtro da dimensão até a fato"
+- **Como Criar (2 caminhos):**
+  1. Na **Exibição de modelo**: arrastar `Equipamento` (do cadastro `Equipamentos`) e soltar em cima de `Equipamento` (da fato `OS`).
+  2. Pelo menu superior: **Modelagem › Gerenciar relações › Novo**.
+- **Como Ler os Símbolos da Linha:**
+  - **Cardinalidade Muitos para um (`*:1`):** Existem **muitas (`*`)** ordens de serviço para **um (`1`)** único equipamento no cadastro.
+  - **Direção `Único`:** A setinha no meio da linha aponta da Dimensão (`Equipamentos`) para a Fato (`OS`). Ou seja: **a área filtra as OS**.
 
 ![Filtro Único](./imagens/fig_3_05_filtro_unico.png)
-*Guia Visual 2 (Figura 3.5): O caminho do filtro único — da Dimensão para a Fato.*
+*Guia Visual 2 (Figura 3.5): O filtro atravessa o relacionamento no sentido da seta (da Dimensão para a Fato).*
 
 ![Editar Relacionamento](./imagens/fig_3_04_editar_relacionamento.png)
-*Guia Visual 3 (Figura 3.4): A janela Editar Relacionamento mostrando as colunas que se correspondem.*
+*Guia Visual 3 (Figura 3.4): Janela de propriedades do relacionamento (*:1 e Único).*
 
 ---
 
-### 1.2. Hierarquias e Organização do Painel Dados (Seção 3.3)
-- **A Lógica da Escada Gerencial (`Área > Equipamento`):**
-  - Pergunte à turma: *"O diretor de operações da Samarco quer ver um gráfico com 200 equipamentos de uma vez ou quer ver primeiro as 5 grandes Áreas e só abrir a área que estiver no vermelho?"*
-  - Isso é uma **Hierarquia**! Empacotamos `Área` (nível 1) e `Equipamento` (nível 2) num único item. No mesmo espaço de tela, o gráfico responde ao diretor (por Área) e, com um clique de **Drill Down**, responde ao supervisor (por Equipamento).
+### Slide 7 — Pegadinha: "A direção Ambas faz as tabelas se comportarem como uma só"
+- **Por que manter `Único` e fugir do `Ambas`?**
+  - **Com `Único` (o padrão correto):** Se você filtrar o mês de março, a tabela `OS` é filtrada, mas a sua segmentação de `Equipamentos` continua listando todas as máquinas da usina (mesmo aquela que teve zero falhas em março!). Isso é ótimo na manutenção, porque ver que uma máquina teve `0 horas paradas` é uma informação importante!
+  - **Com `Ambas`:** O filtro corre nos dois sentidos. Se houver mais tabelas no modelo (ex: Técnicos, Metas por Área), criam-se dois caminhos para o mesmo filtro (um anel fechado) e o resultado fica imprevisível ou o Desktop bloqueia com erro de ambiguidade. **Regra de bolso: Use `Único`.**
+
+---
+
+### Slide 8 — Ideia Central: "Duas segmentações juntas são uma interseção"
+- **Conectando com a Teoria de Conjuntos do Dia 2:**
+  - Desenhe dois círculos no quadro branco:
+    - **Segmentações diferentes = `E` (Interseção $\cap$):**Quando o leitor clica em `Área = Pátio` numa segmentação **E** em `Mês = março` em outra segmentação, o Power BI entrega só as OS que pertencem **aos dois conjuntos ao mesmo tempo** ($\text{Pátio} \cap \text{março}$).
+    - **Mesma segmentação = `OU` (União $\cup$):** Quando o leitor segura `Ctrl` e marca `Pátio` **OU** `Forno` dentro da mesma segmentação de Área, o Power BI soma os dois conjuntos ($\text{Pátio} \cup \text{Forno}$).
+
+---
+
+# BLOCO 3.3 · 3.4: Hierarquias e Escolha do Visual (Slides 9 a 12)
+
+### Slide 9 e Slide 10 — Ideia Central: "Hierarquia: descer de nível com um clique"
+- **Exemplo Exato do Slide 10 (`Área › Equipamento`):**
+  - No painel **Dados**, clicamos com o botão direito em `Área` ➔ **Criar hierarquia**, e depois clicamos com o botão direito em `Equipamento` ➔ **Adicionar à hierarquia**.
+  - Na prática: o gráfico mostra primeiro as barras das Áreas. Quando o supervisor clica na barra da área **Pátio** (com o Drill Down ligado), a barra do Pátio se abre imediatamente nas suas três máquinas: **`EM-01`** (Empilhadeira 1), **`EM-02`** (Empilhadeira 2) e **`CN-01`** (Carregador de navios 1)!
+- **Hierarquia de Datas:**
+  - Mostre que toda coluna do tipo Data já ganha automaticamente do Power BI a hierarquia `Ano › Trimestre › Mês › Dia`, controlada pelas mesmas setinhas no cabeçalho do visual.
 
 ![Hierarquia](./imagens/fig_3_07_hierarquia.png)
-*Guia Visual 4 (Figura 3.7): Hierarquia criada no painel Dados e a Hierarquia de Data automática.*
-
-- **A Regra de Higiene do Modelo (Ocultar e Renomear):**
-  - **Ocultar a chave da Fato (`OS[Equipamento]`):** Se o aluno deixar a coluna `Equipamento` visível nas duas tabelas, na pressa ele vai arrastar a da tabela `OS` para uma segmentação de dados. Por isso ocultamos a chave estrangeira da Fato (ícone de olho cortado).
-  - **Renomear colunas:** Nomes vindos de banco de dados (`DT_ABERT_OS`, `VL_HR_PAR`) devem virar português claro de manutenção (`Data de Abertura`, `Horas Paradas`) antes de montar o primeiro gráfico, porque o título de cada visual nasce do nome da coluna!
-
-![Ocultar e Renomear](./imagens/fig_3_08_ocultar_renomear.png)
-*Guia Visual 5 (Figura 3.8): Ocultar da visualização de relatório mantém o relacionamento funcionando sem poluir a lista.*
-
----
-
-### 1.3. Escolha do Visual pela Pergunta da Manutenção (Seção 3.4)
-- **O Princípio Fundamental:**
-  > *"Quem abre o Power BI e clica num gráfico antes de saber qual pergunta quer responder acaba com um painel bonito que não serve para tomar decisão nenhuma."*
-
-- **Dinâmica em Sala — Jogo "Pergunta ➔ Visual" (10 minutos):**
-  Divida ou provoque a turma com 6 perguntas reais de reunião matinal e peça que digam na hora qual é a família e o visual:
-
-| # | Pergunta da Manutenção na Samarco | Família | Visual Certo | Por que NÃO usar outro? |
-| :-: | :--- | :--- | :--- | :--- |
-| **1** | *"Quantas horas perdemos com corretivas no mês fechado?"* | Mostrar 1 número | **Cartão** | Gráfico de barra para 1 número só desperdiça espaço. |
-| **2** | *"Qual das 6 áreas da planta teve mais horas paradas?"* | Comparar categorias | **Barras ou Colunas** | Pizza com 6 fatias parecidas impede comparar tamanhos. |
-| **3** | *"A indisponibilidade do britador BR-01 está aumentando ou caindo desde janeiro?"* | Acompanhar no tempo | **Gráfico de Linhas** | A inclinação da linha contínua mostra tendência na hora. |
-| **4** | *"Em cada área, quanto foi Corretiva, Preventiva e Preditiva?"* | Comparar + Compor | **Colunas Empilhadas ou Clusterizadas** | Mostra o total da área e a divisão interna por tipo. |
-| **5** | *"Onde está a maior concentração de horas cruzando Área × Tipo de Manutenção?"* | Cruzar 2 categorias | **Matriz com Cor (Mapa de Calor)** | Cruza linhas e colunas como uma tabela dinâmica visual. |
-| **6** | *"Quais foram as OS abertas ontem, com número, descrição e custo?"* | Detalhar linhas | **Tabela** | Só a tabela lista textos longos e códigos individuais. |
-
-- **A Ordem de Leitura da Página (Desenho na Lousa):**
-  Mostre que um painel profissional segue o movimento natural dos olhos:
-  - **Topo:** Cartões (o resumo executivo).
-  - **Esquerda:** Segmentações (os botões de filtro).
-  - **Centro:** Gráficos de comparação (Barras) e tempo (Linhas).
-  - **Rodapé / Página 2:** Matriz e Tabela de detalhes.
-
-![Layout da Página](./imagens/fig_3_11_layout_painel.png)
-*Guia Visual 6 (Figura 3.11): Distribuição clássica de uma página de Visão Geral.*
-
----
-
-### 1.4. Gráficos de Barras/Colunas, Linhas, Cartão e Matriz (Seções 3.5 e 3.6)
-- **Empilhado × Clusterizado (Agrupado):**
-  - Faça um desenho rápido de duas barras no quadro:
-    - Na **Empilhada**, a preventiva fica em cima da corretiva. A altura total mostra o **total da Área**.
-    - Na **Clusterizada**, a barra da corretiva fica ao lado da preventiva. Elas têm a mesma linha de base zero, permitindo comparar se uma área fez mais preventiva do que corretiva!
-
-![Colunas Empilhadas](./imagens/fig_3_12_colunas_empilhadas.png)
-*Guia Visual 7 (Figura 3.12): Eixo X, Eixo Y e Legenda no gráfico de colunas empilhadas.*
-
-![Gráfico de Linhas](./imagens/fig_3_13_grafico_linhas.png)
-*Guia Visual 8 (Figura 3.13): No gráfico de linhas, o eixo de meses precisa estar ordenado cronologicamente (e não por ordem alfabética!).*
-
-- **A Pegadinha da Agregação Implícita (Soma, Média, Contagem):**
-  - Pergunte: *"Se o dosador `DO-03` teve 5 ordens de serviço no mês com `1,5`, `4,0`, `2,5`, `6,0` e `1,0` horas paradas (soma = 15,0 h), o que aparece no Cartão se eu trocar o resumo de Soma para Média? E para Contagem?"*
-  - **Resposta no quadro:**
-    - `Soma` = **15,0 horas** (indisponibilidade total).
-    - `Média` = **3,0 horas** ($15,0 \div 5$ = tempo médio de parada por OS, próximo ao MTTR!).
-    - `Contagem` = **5** (quantidade de intervenções!).
-
-![Lista de Resumos](./imagens/fig_3_15_lista_resumos.png)
-*Guia Visual 9 (Figura 3.15): O menu de agregação do campo numérico no painel Visualizações.*
-
-- **As 4 Formas de Formatação Condicional na Matriz (Seção 3.6):**
-  1. **Cor da tela de fundo:** Pinta a célula inteira (mapa de calor para achar o maior valor).
-  2. **Cor da fonte:** Discreta, muda só a cor do número.
-  3. **Barras de dados:** Desenha um mini gráfico de barras dentro da coluna numérica.
-  4. **Ícones:** Coloca bolinhas de semáforo (🟢 🟡 🔴) ou setas conforme regras da meta.
-
-![Barras e Ícones na Matriz](./imagens/fig_3_19_barras_icones.png)
-*Guia Visual 10 (Figura 3.19): Barras de dados e ícones destacando os desvios dentro da matriz.*
-
----
-
-# PARTE 2: Interatividade, Publicação e Casos Reais (Seções 3.7 a 3.9)
-
-### 2.1. Segmentação de Dados, Painel Filtros e Interações (Seção 3.7)
-- **Quem usa a Segmentação vs Quem usa o Painel Filtros:**
-  - **Segmentação de dados:** É feita para o **leitor** do painel (supervisor, gerente). Fica visível na tela como botões ou lista suspensa.
-  - **Painel Filtros:** É onde o **autor** do relatório trava regras estruturais em 3 alcances:
-    - *Neste visual:* Ex: mostrar só o Top 5 equipamentos num gráfico específico.
-    - *Nesta página:* Ex: uma página dedicada só ao ano atual.
-    - *Em todas as páginas:* Ex: ocultar OS com status `Cancelada` no relatório inteiro e passar o cadeado!
-
-![Painel Filtros](./imagens/fig_3_21_painel_filtros.png)
-*Guia Visual 11 (Figura 3.21): Os três níveis de alcance do painel Filtros.*
-
-- **Por que desligar o "Realçar" e ligar o "Filtrar" em Editar Interações?**
-  - Mostre que, por padrão, clicar numa barra faz um **Realce (Highlight)** nos outros gráficos (pinta um pedacinho da barra e deixa o resto transparente).
-  - Num gráfico de linhas ou numa barra pequena, o realce fica quase invisível! Trocando para **Filtrar (funil)** em `Formato > Editar Interações`, o gráfico recalcula sua escala mostrando 100% de foco na máquina clicada.
-
-![Editar Interações](./imagens/fig_3_21_editar_interacoes.png)
-*Guia Visual 12 (Figura 3.20): Os três modos de interação — Filtrar (funil), Realçar e Nenhum.*
-
-- **Navegação Avançada: Sincronizar Segmentações e Drill-through:**
-  - **Sincronizar segmentações:** Quando o gerente escolhe a área `"Pelotização"` na Página 1 (Visão Geral) e muda para a Página 2 (Detalhe), ele espera que a Página 2 já esteja na Pelotização! É a sincronização que mantém a memória do filtro entre as abas.
-  - **Drill-through:** Clicar com o botão direito na barra do britador `BR-01` e pular direto para uma página de dossiê daquela máquina específica.
+*Guia Visual 4 (Figura 3.7): Hierarquia no painel Dados e hierarquia automática de Datas.*
 
 ![Ícones de Drill Down](./imagens/fig_3_23_drill_down.png)
-*Guia Visual 13 (Figura 3.23): Os 4 ícones do cabeçalho de hierarquia — Subir, Ativar clique de descida, Próximo nível e Expandir tudo.*
+*Guia Visual 5 (Figura 3.23): As setas no topo do gráfico para descer e subir níveis.*
 
 ---
 
-### 2.2. Publicação no Serviço do Power BI e Gateways (Seção 3.8)
-- **A Oficina (Desktop) × A Vitrine (Serviço na Nuvem):**
-  - No computador (`.pbix`), construímos o painel. Na nuvem (**Serviço do Power BI**), a equipe consome pelo navegador ou celular sem instalar nada.
-  - **As 4 Funções do Espaço de Trabalho (Workspace):**
-    - *Administrador* e *Membro:* Gerenciam permissões e publicam.
-    - *Colaborador:* Publica e edita relatórios.
-    - *Visualizador:* **Só lê e filtra**, sem risco de apagar um gráfico sem querer! (Papel ideal para quem só consulta o painel na área).
+### Slide 11 — Ideia Central: "Comece pela pergunta, depois escolha o visual"
+Explique as **4 famílias fundamentais** do Slide 11:
+1. **Comparar (*"Qual área tem mais?"*):** Pede **Barras ou colunas** (o olho humano compara comprimentos de barras com precisão imediata).
+2. **Acompanhar no tempo (*"Está subindo ou caindo?"*):** Pede **Linhas**, com o mês ordenado no eixo horizontal (a inclinação da linha revela a tendência).
+3. **Mostrar um número (*"Quanto foi no mês?"*):** Pede **Cartão** (destaque grande no topo da tela).
+4. **Detalhar (*"Quais OS estão por trás?"*):** Pede **Tabela ou matriz**.
 
-![Publicar no Serviço](./imagens/fig_3_26_publicar.png)
-*Guia Visual 14 (Figura 3.26): O botão Publicar envia o arquivo .pbix para o Espaço de Trabalho.*
-
-![Relatório vs Dashboard](./imagens/fig_3_27_relatorio_vs_dashboard.png)
-*Guia Visual 15 (Figura 3.27): Diferença arquitetural entre Modelo Semântico, Relatório e Dashboard.*
-
-- **O Gateway de Dados: Como a Nuvem Conversa com o Servidor da Samarco?**
-  - Desenhe na lousa: `[Rede Interna Samarco (Excel/SAP)] ➔ [Gateway] ➔ [Nuvem Power BI]`.
-  - Explique a diferença crítica entre os dois modos de Gateway:
-    - **Modo Pessoal:** Instalado no notebook do analista. Se o analista fechar a tampa do notebook ou sair de férias, o painel para de atualizar!
-    - **Modo Padrão (Corporativo):** Instalado num servidor da TI da empresa que fica ligado 24 horas por dia. É o único caminho profissional para painéis de área.
-
-![Gateway Agendado](./imagens/fig_3_29_gateway.png)
-*Guia Visual 16 (Figura 3.29): O serviço aciona o gateway no horário agendado para buscar os dados na rede local.*
-
-![Gateway Pessoal vs Padrão](./imagens/fig_3_31_gateway_pessoal_vs_padrao.png)
-*Guia Visual 17 (Figura 3.31): Por que o gateway pessoal trava a atualização quando o notebook é desligado.*
+![Layout da Página](./imagens/fig_3_11_layout_painel.png)
+*Guia Visual 6 (Figura 3.11): Como os quatro tipos de visual se organizam na página do painel.*
 
 ---
 
-### 2.3. Condução dos Dois Casos Integrados (Seção 3.9)
-
-#### Caso 1: O Caso das "Horas em Dobro" (`OS_Marco_Auditoria.csv` + `Alocacao_Tecnicos_OS.csv`)
-Conduza este caso como um **desafio de detetive** antes de os alunos fazerem no laboratório:
-1. **Apresente os fatos na lousa:**
-   - Exportação de março (`OS_Marco_Auditoria.csv`): **48 OS** | **92,0 horas paradas** | Empilhadeiras `EM-01` e `EM-02` = **23,0 horas**.
-   - Planilha do supervisor (`Alocacao_Tecnicos_OS.csv`): tem o número da OS, o nome do técnico e o turno.
-   - O analista usou **Mesclar Consultas** no Power Query para trazer a coluna `Técnico` para dentro da tabela de OS.
-   - Resultado no Cartão: **131,5 horas paradas!** E as empilhadeiras subiram para **41,5 horas!**
-2. **Lance as 3 perguntas da apostila (página 84) para a turma responder:**
-   - **Pergunta A:** *"Que contagem de linhas, conferida no Power Query antes de carregar, teria denunciado o problema na hora?"*  
-     ➔ **Resposta:** A barra de status do Power Query mostrou que a tabela de OS pulou de **48 linhas para 63 linhas** logo após expandir a coluna `Técnico`! (Porque 15 OS tiveram 2 técnicos trabalhando juntos).
-   - **Pergunta B:** *"Se a planilha viesse com os dois técnicos na mesma célula (`Carlos Silva, Roberto Souza`), que problema sumiria e que pergunta ficaria difícil de responder?"*  
-     ➔ **Resposta:** A duplicação das horas sumiria (continuariam 48 linhas), mas ficaria impossível filtrar ou contar quantas OS o `"Roberto Souza"` fez sozinho ou em dupla sem quebrar o texto!
-   - **Pergunta C:** *"Qual é a solução correta no modelo do Power BI?"*  
-     ➔ **Resposta:** Não mesclar no Power Query! Manter `OS` com 48 linhas e `Alocacao_Tecnicos_OS` como uma tabela separada de 63 linhas ligada pelo `Número da OS` (`1:*`). Assim cada OS soma suas horas uma única vez, e cada técnico recebe a contagem das OS em que participou!
+### Slide 12 — Teste Rápido: "Qual visual responde cada pergunta?" (Gabarito para Sala)
+Faça a dinâmica oral com a turma para as 4 perguntas do **Slide 12**:
+- **1. Total de horas paradas de março**  
+  ➔ **Gabarito:** **Cartão** *(Família: Mostrar um número — é um único valor consolidado).*
+- **2. Qual equipamento da Moagem parou mais**  
+  ➔ **Gabarito:** **Gráfico de barras ou de colunas** *(Família: Comparar — ordenando do maior para o menor equipamento da Moagem).*
+- **3. As corretivas estão aumentando desde janeiro?**  
+  ➔ **Gabarito:** **Gráfico de linhas** com o mês no eixo X *(Família: Acompanhar no tempo — mostra a trajetória de subida ou queda).*
+- **4. Lista das OS abertas do silo `SL-02`**  
+  ➔ **Gabarito:** **Tabela** *(Família: Detalhar — lista o número de cada OS, data e descrição do serviço pendente no silo).*
 
 ---
 
-#### Caso 2: O Painel que Parou no Dia 14
-1. **Apresente o cenário (página 84):**
-   - No dia 20, a gerência abre o painel de Utilidades e percebe que uma grande corretiva do dia 16 não está lá: a última OS do painel é do dia 14.
-   - Além disso, na segmentação de Área aparecem duas caixas: `Utilidades` (88 horas) e `Utilidades` (19 horas).
-2. **Discuta as 3 perguntas de revisão (página 85):**
-   - **Pergunta A:** *"Se alguém abrir o Desktop, clicar em Atualizar e publicar de novo, a OS do dia 16 aparece. Mas por que isso não resolve a causa raiz?"*  
-     ➔ Porque o problema está no **Gateway Pessoal** instalado no notebook de quem saiu de férias no dia 14. A solução definitiva é migrar para o **Gateway Padrão** no servidor da TI.
-   - **Pergunta B:** *"Onde a duplicação de `'Utilidades'` e `'Utilidades '` (com espaço no final) poderia ter sido pega antes de publicar?"*  
-     ➔ Na **Distribuição de Colunas (Seção 2.8)** dentro do Power Query (que mostraria 2 valores distintos onde deveria haver 1) ou aplicando **Transformar > Cortar (Trim)** por padrão em todas as colunas de texto.
-   - **Pergunta C:** *"Se o painel usasse DirectQuery contra um banco de dados interno da empresa em vez de importar pasta, o gateway deixaria de ser necessário?"*  
-     ➔ **Não!** O banco continua dentro da rede privada da empresa e o serviço continua na nuvem; o gateway continua obrigatório para intermediar as consultas em tempo real.
+# BLOCO 3.5 · 3.6: Gráficos, Cartões e Matriz (Slides 13 a 17)
+
+### Slide 13 e Slide 14 — Ideia Central: "Empilhado mostra o total; clusterizado compara os tipos"
+- **Como contrastar os dois no projetor:**
+  - **Colunas empilhadas:** Cada coluna inteira é o **total da área**; as cores dentro dela mostram quanto veio de Corretiva, Preventiva e Preditiva. Responde direto: *"Quanto a área parou no total?"*
+  - **Colunas clusterizadas (agrupadas):** Coloca as barras de Corretiva, Preventiva e Preditiva **lado a lado** na mesma linha de base zero dentro de cada área. Responde direto: *"Qual tipo de manutenção pesa mais em cada área?"*
+
+![Colunas Empilhadas](./imagens/fig_3_12_colunas_empilhadas.png)
+*Guia Visual 7 (Figura 3.12): Colunas empilhadas com Área no eixo, Horas no valor e Tipo na legenda.*
+
+---
+
+### Slide 15 — Pegadinha: "Número da OS é número, mas somá-lo não significa nada"
+- **A Cena Clássica no Laboratório:**
+  - O aluno quer mostrar *"Quantidade de OS"* num Cartão. Ele arrasta a coluna `Número da OS` (`51020`, `51021`...) para o cartão.
+  - Como o tipo de dado é Número Inteiro, o Power BI faz uma **Soma** dos números das OS e mostra `43,89 Milhões` no cartão!
+  - **Lição:** Nem toda coluna numérica é aditiva! Código de OS e matrícula de técnico são identificadores: devemos clicar na setinha do campo e trocar o resumo de *Soma* para **Contagem**.
+
+![Lista de Resumos](./imagens/fig_3_15_lista_resumos.png)
+*Guia Visual 8 (Figura 3.15): Trocando Soma por Contagem ou Média no resumo do campo.*
+
+---
+
+### Slide 16 e Slide 17 — Situação e Como Fazer: "O Forno concentra mais da metade das horas de corretiva" e "Matriz com semáforo"
+- **Explicando o Slide 16:**
+  - Num mês com `57,0 h` totais de manutenção corretiva, só a área do **Forno** respondeu por **`31,0 h`** — ou seja, **54%** de toda a parada corretiva!
+  - Enquanto o **Cartão** mostra um número isolado (`57,0 h`), a **Matriz** cruza `Área` (nas linhas) $\times$ `Tipo de Manutenção` (nas colunas), e a **formatação condicional** pinta a célula de vermelho, revelando essa concentração antes de qualquer conta!
+- **Explicando os 3 Passos do Slide 17 (Como fazer: matriz com semáforo):**
+  1. `Visualizações › Matriz`: `Área` nas linhas, `Tipo` nas colunas, `Horas Paradas` nos valores.
+  2. `Botão direito em Horas Paradas › Formatação condicional › Cor da tela de fundo`.
+  3. `Regras`:
+     - Até `15 h` ➔ **Verde**
+     - De `15 a 30 h` ➔ **Amarelo**
+     - Acima de `30 h` ➔ **Vermelho** *(o Forno com `31,0 h` acende em vermelho na hora!).*
+
+![Matriz Condicional](./imagens/fig_3_19_barras_icones.png)
+*Guia Visual 9 (Figura 3.19): A cor na matriz direciona o olho imediatamente para a célula crítica.*
+
+---
+
+# BLOCO 3.7 · 3.8: Filtros e Publicação (Slides 18 a 21)
+
+### Slide 18 e Slide 19 — Ideia Central: "Quem filtra o quê na página"
+Explique os **4 mecanismos de controle** resumidos no **Slide 19**:
+1. **Segmentação:** É o filtro visível na tela feito para o leitor clicar (em formato de lista, mosaico/botões, suspensa ou intervalo de data).
+2. **Interação:** O comportamento automático de clicar numa barra de um gráfico e ver todos os outros visuais da página reagirem (filtrando ou realçando).
+3. **Editar interações (`Guia Formato`):** Onde o autor do painel escolhe o que o clique em cada visual faz em cada um dos outros (trocando o *Realçar* pelo *Filtrar* de funil, ou desligando em *Nenhum*).
+4. **Painel Filtros:** A gaveta lateral com **três níveis de alcance** (*neste visual*, *nesta página* e *em todas as páginas do relatório*), onde o autor pode ocultar ou trancar filtros com o cadeado.
+
+![Editar Interações](./imagens/fig_3_21_editar_interacoes.png)
+*Guia Visual 10 (Figura 3.20): Controles de Editar Interações no canto superior direito do visual.*
+
+![Painel Filtros](./imagens/fig_3_21_painel_filtros.png)
+*Guia Visual 11 (Figura 3.21): Os três níveis de escopo do painel Filtros.*
+
+---
+
+### Slide 20 e Slide 21 — Publicação no Serviço e Governança na Samarco
+- **O Conceito do Slide 20 ("Publicar cria uma segunda cópia, no serviço"):**
+  - **No Desktop:** Você vai em `Página Inicial › Publicar` e escolhe o espaço de trabalho. A partir desse instante existem duas cópias: o arquivo `.pbix` no seu computador (que continua sendo a sua oficina de edição) e a versão publicada na nuvem.
+  - **No Serviço (nuvem):**
+    - **Espaço de trabalho (Workspace):** A pasta compartilhada da equipe.
+    - **As 4 Funções:** *Administrador*, *Membro*, *Colaborador* (que publicam/editam) e *Visualizador* (que apenas consulta o painel com segurança).
+    - **Aplicativo (App):** A versão oficial "empacotada" e distribuída para a leitura da gerência e operação.
+
+![Publicar](./imagens/fig_3_26_publicar.png)
+*Guia Visual 12 (Figura 3.26): O botão Publicar e a escolha do Espaço de Trabalho.*
+
+- **A Pegadinha do Slide 21 ("Na Samarco, conta, licença e espaço de trabalho vêm da TI"):**
+  - Deixe muito claro para a turma: construir no Power BI Desktop é gratuito, mas publicar num espaço compartilhado exige licença corporativa (**Pro** ou **PPU**) ou capacidade contratada pela empresa.
+  - Por isso, aqui no laboratório do CEDTEC a publicação é demonstrada pelo professor; lá na Samarco, antes de publicar um painel oficial da área, o alinhamento de conta, gateway e espaço de trabalho é feito junto à TI da empresa.
+
+---
+
+# BLOCO 3.9: Caso Integrado — "Horas em Dobro" (Slides 22 a 26)
+
+### Slide 22, Slide 23 e Slide 24 — O Mistério das `131,5 h` contra `92,0 h`
+- **A Situação (Slide 23):**
+  - Na exportação oficial do mês de março ([`OS_Marco_Auditoria.csv`](./OS_Marco_Auditoria.csv)), a soma conferida no Excel dá exatamente **`92,0 h`** (em 48 OS).
+  - Porém, ao abrir o painel montado pelo colega, o cartão mostra **`131,5 h`**!
+  - O que ele fez antes de carregar? Ele usou **Mesclar Consultas** no Power Query para juntar a planilha de alocação ([`Alocacao_Tecnicos_OS.csv`](./Alocacao_Tecnicos_OS.csv), que tem **uma linha por técnico em cada OS**) dentro da tabela de OS!
+- **A Ideia Central / Causa Raiz (Slide 24):**
+  - *"A mescla mudou a granularidade e repetiu as horas."*
+  - Das 48 OS do mês, **15 OS tiveram dois técnicos** trabalhando juntos. Quando a coluna `Técnico` foi expandida dentro da tabela de OS, cada uma dessas 15 OS virou **duas linhas** na tabela fato (`48 + 15 = 63 linhas`), e as horas paradas daquelas 15 OS (`39,5 h`) foram somadas duas vezes (`92,0 + 39,5 = 131,5 h`)!
+- **A Correção Definitiva (Slide 24):**
+  1. Manter a tabela `OS` com **uma única linha por OS** (48 linhas).
+  2. Deixar a planilha de `Alocação` numa **tabela separada** no modelo, ligada pelo `Número da OS`.
+  3. **Regra de ouro:** *Confira sempre o total do painel com a exportação de origem antes de confiar!*
+
+---
+
+### Slide 25 e Slide 26 — Resumo e Fechamento do Dia 3
+- **Três Pilares do Resumo (Slide 25):**
+  1. **Relacionamento:** O filtro vai da dimensão para a fato (`1 ➔ *`, direção `Único`).
+  2. **Visual:** Primeiro a pergunta da manutenção, depois o gráfico.
+  3. **Conferência:** O total do painel bate com a origem?
+- **Checkpoint do Dia 3 (Slide 26):**
+  - Cada aluno salva o seu `.pbix` com **duas páginas funcionando**:
+    - Página 1: **Visão Geral**
+    - Página 2: **Por Equipamento**
+    - Com as segmentações de **Área** e **Mês** funcionando nas duas páginas.
+- **Gancho para o Dia 4 (Slide 26):**
+  - *"Hoje respondemos às perguntas usando somas e contagens automáticas das colunas. Mas e quando o gerente pedir o **Custo por Hora Parada**, o **MTBF**, o **MTTR** ou o **% de Preventivas sobre o Total Geral**? Amanhã no Dia 4 entramos na linguagem **DAX**: primeiras medidas, contexto de filtro e `CALCULATE`!"*
