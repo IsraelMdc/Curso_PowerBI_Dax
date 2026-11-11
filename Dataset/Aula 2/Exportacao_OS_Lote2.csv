@@ -1,0 +1,26 @@
+SISTEMA INTEGRADO DE GESTÃO DA MANUTENÇÃO - SIGMA
+Planta de Beneficiamento e Pelotização - Relatório Mensal de OS
+Período de Extração: 01/11/2026 a 30/11/2026
+
+Número da OS,Equipamento,Tipo de Manutenção,Status,Data de Abertura,Início,Fim,Data de Encerramento,Data de Cancelamento,Data Programada,Horas Paradas,Horas Previstas,Custo (R$),Prioridade,Equipe Responsável,Solicitante,Descrição da Falha/Serviço
+51870,BR-01,Preventiva,Encerrada,2026-11-01 00:00:00,2026-11-01 08:30:00,2026-11-01 12:45:00,2026-11-01 00:00:00,,2026-11-05 00:00:00,4.25,5.0,3840.50,Média,Mecânica A,Operação,Substituição de mandíbulas
+51871,TR 01,Corretiva,Encerrada,2026-11-02 00:00:00,2026-11-02 14:10:00,2026-11-02 19:25:00,2026-11-02 00:00:00,,,5.25,4.0,2910.00,Alta,Elétrica A,Processo,Falha elétrica no acionamento
+51872,MO-01,Preventiva,Encerrada,2026-11-03 00:00:00,2026-11-03 22:00:00,2026-11-04 03:30:00,2026-11-04 00:00:00,,2026-11-03 00:00:00,5.5,6.0,8450.00,Alta,Mecânica B,Manutenção,Troca de revestimento
+51873,FO-01,Corretiva,Encerrada,2026-11-04 00:00:00,2026-11-04 09:15:00,2026-11-04 14:45:00,2026-11-04 00:00:00,,,5,5 h,6.0,14200.00,Urgente,Mecânica A,Operação,Trinca na grelha móvel
+51874,ES-01,Preditiva,Encerrada,2026-11-05 00:00:00,2026-11-05 10:00:00,2026-11-05 12:15:00,2026-11-05 00:00:00,,2026-11-10 00:00:00,2.25,3.0,1850.20,Baixa,Instrumentação,Inspeção,Análise de vibração no redutor
+51875,DC-01,Preventiva,Cancelada,2026-11-06 00:00:00,,,,2026-11-08 00:00:00,2026-11-06 00:00:00,0,4.0,150.00,Média,Lubrificação,Processo,Inspeção das lonas filtrantes
+51876,PE-01,Corretiva,Encerrada,2026-11-07 00:00:00,2026-11-07 23:45:00,2026-11-08 04:15:00,2026-11-08 00:00:00,,,4.5,5.0,9120.80,Alta,Mecânica B,Operação,Vazamento no circuito hidráulico
+51877,SM-01,Preventiva,Aberta,2026-11-08 00:00:00,,,,,2026-11-15 00:00:00,0,8.0,950.00,Baixa,Elétrica A,Manutenção,Limpeza técnica de tambor
+51878,PR-02,Corretiva,Encerrada,2026-11-09 00:00:00,2026-11-09 13:00:00,2026-11-09 16:30:00,2026-11-09 00:00:00,,,3.5,3.0,4320.00,Alta,Elétrica A,Operação,Sobrecarga no guincho principal
+51878,PR-02,Corretiva,Encerrada,2026-11-09 00:00:00,2026-11-09 13:00:00,2026-11-09 16:30:00,2026-11-09 00:00:00,,,3.5,3.0,4320.00,Alta,Elétrica A,Operação,Sobrecarga no guincho principal
+51879,BM-01,Corretiva,Encerrada,2026-11-10 00:00:00,2026-11-10 11:00:00,2026-11-10 18:30:00,2026-11-10 00:00:00,,,7.5,6.5,7890.30,Urgente,Mecânica A,Processo,Cavitação e desgaste de rotor
+51880,TR-02 ,Corretiva,Encerrada,2026-11-11 00:00:00,2026-11-11 15:20:00,2026-11-11 18:00:00,2026-11-11 00:00:00,,,2.67,3.0,2100.00,Média,Mecânica B,Operação,Desalinhamento de correia
+51881,CL-01,Preventiva,Encerrada,2026-11-12 00:00:00,2026-11-12 08:00:00,2026-11-12 11:30:00,2026-11-12 00:00:00,,2026-11-14 00:00:00,3.5,4.0,3200.40,Média,Lubrificação,Manutenção,Lubrificação de mancais
+51882,PN-01,Corretiva,Encerrada,2026-11-13 00:00:00,2026-11-13 19:10:00,2026-11-13 22:40:00,2026-11-13 00:00:00,,,3.5,4.0,5110.00,Alta,Mecânica A,Inspeção,Ruptura de tela de classificação
+51883,HC-01,Corretiva,Aberta,2026-11-14 00:00:00,,,,,,0,5.0,620.00,Média,Mecânica B,Operação,Entupimento de ápice
+51884,BR-02,Preventiva,Encerrada,2026-11-15 00:00:00,2026-11-15 07:30:00,2026-11-15 13:00:00,2026-11-15 00:00:00,,2026-11-18 00:00:00,5.5,5.0,6700.00,Média,Mecânica A,Processo,Inspeção periódica e regulagem
+51885,MO-02 - Moinho de bolas 2,Corretiva,Encerrada,2026-11-16 00:00:00,2026-11-16 10:15:00,2026-11-16 17:45:00,2026-11-16 00:00:00,,,7.5,8.0,18900.00,Urgente,Elétrica A,Operação,Falha no motor de acionamento
+51886,DC-02,Preditiva,Encerrada,2026-11-17 00:00:00,2026-11-17 14:00:00,2026-11-17 16:00:00,2026-11-17 00:00:00,,2026-11-20 00:00:00,2.0,2.5,1420.00,Baixa,Instrumentação,Inspeção,Inspeção termográfica em painel
+51887,SM-02,Corretiva,Encerrada,2026-11-18 00:00:00,2026-11-18 21:30:00,2026-11-19 03:00:00,2026-11-19 00:00:00,,,5.5,6.0,4800.00,Alta,Mecânica B,Processo,Desgaste de raspador
+51888,BM-02,Preventiva,Encerrada,2026-11-19 00:00:00,2026-11-19 09:00:00,2026-11-19 11:30:00,2026-11-19 00:00:00,,2026-11-22 00:00:00,2.5,3.0,2650.00,Média,Lubrificação,Manutenção,Troca de óleo e gaxeta
+Total Geral,,,,,,,,,,66.92,77.0,86271.90,,,
