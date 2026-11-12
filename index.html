@@ -3,13 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Power BI e DAX para Manutenção — Cronograma</title>
+<title>Power BI e DAX para Manutenção — Cronograma e Materiais</title>
 <style>
   :root {
     --bg: #f6f7f4; --card: #ffffff; --text: #1f2420; --muted: #5c6459;
     --brand: #2f6b12; --brand-2: #8cc63f; --brand-soft: #eef6e4; --line: #dfe5d8;
     --lab: #1f6fb2; --lab-soft: #e1eefa; --sala: #a35f00; --sala-soft: #fbefd9;
     --exam: #b4232f; --exam-soft: #fbe3e5; --head: #1f2420;
+    --accent: #6b2fb2; --accent-soft: #f2eafb;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
@@ -17,6 +18,7 @@
       --brand: #a6d96a; --brand-2: #8cc63f; --brand-soft: #24301c; --line: #2e372b;
       --lab: #7db7ea; --lab-soft: #1a2c3d; --sala: #f0b35a; --sala-soft: #3d2f17;
       --exam: #ff8a94; --exam-soft: #44212a; --head: #0c0f0b;
+      --accent: #c59bf7; --accent-soft: #2d1f3d;
     }
   }
   * { box-sizing: border-box; }
@@ -38,7 +40,7 @@
   h2 { margin: 0 0 4px; color: var(--brand); font-size: 1.35rem; }
   h3 { margin: 18px 0 6px; font-size: 1rem; }
   .sub { color: var(--muted); margin: 0 0 14px; }
-  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
   .fact { background: var(--bg); border-radius: 10px; padding: 12px; }
   .fact b { display: block; font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
   .table-wrap { overflow-x: auto; }
@@ -55,10 +57,91 @@
   .parts p { margin: 4px 0; }
   ul { margin: 6px 0; padding-left: 20px; }
   .legend { display: flex; gap: 14px; flex-wrap: wrap; font-size: .9rem; margin-top: 10px; }
-  a.btn { display: inline-block; margin-top: 10px; padding: 8px 14px; border-radius: 8px; background: var(--brand); color: #fff; text-decoration: none; font-weight: 600; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+  a.btn, button.btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px; border: 1px solid transparent;
+    background: var(--brand); color: #fff; text-decoration: none;
+    font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
+    transition: transform .1s ease, opacity .15s ease;
+  }
+  a.btn:hover, button.btn:hover { opacity: .92; transform: translateY(-1px); }
+  a.btn.secondary, button.btn.secondary {
+    background: var(--brand-soft); color: var(--brand); border-color: var(--line);
+  }
+  a.btn.lab-btn, button.btn.lab-btn {
+    background: var(--lab-soft); color: var(--lab); border-color: var(--line);
+  }
+  a.btn.sala-btn, button.btn.sala-btn {
+    background: var(--sala-soft); color: var(--sala); border-color: var(--line);
+  }
+  a.btn.accent-btn, button.btn.accent-btn {
+    background: var(--accent-soft); color: var(--accent); border-color: var(--line);
+  }
+  .mat-box {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; margin: 12px 0 6px;
+  }
+  .mat-box .mat-title {
+    font-size: .78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--muted); margin-bottom: 8px; display: block;
+  }
+  .mat-box .btn-row { margin-top: 0; gap: 8px; }
+  .mat-box a.btn, .mat-box button.btn { padding: 6px 12px; font-size: .85rem; }
   footer { text-align: center; color: var(--muted); font-size: .85rem; padding-bottom: 24px; }
+
+  /* Modal Leitor de Roteiros (.md) */
+  .modal-backdrop {
+    position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, .62);
+    display: none; align-items: center; justify-content: center; padding: 16px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal-card {
+    background: var(--card); color: var(--text); border: 1px solid var(--line);
+    border-radius: 14px; max-width: 960px; width: 100%; max-height: 90vh;
+    display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,.35);
+  }
+  .modal-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 14px 20px; border-bottom: 1px solid var(--line);
+  }
+  .modal-head h3 { margin: 0; font-size: 1.05rem; color: var(--brand); }
+  .modal-actions { display: flex; gap: 8px; align-items: center; }
+  .modal-close {
+    background: var(--bg); color: var(--text); border: 1px solid var(--line);
+    border-radius: 8px; padding: 6px 12px; font-weight: 700; cursor: pointer;
+  }
+  .modal-body {
+    padding: 20px 24px; overflow-y: auto; line-height: 1.65;
+  }
+  .modal-body h1, .modal-body h2, .modal-body h3, .modal-body h4 {
+    color: var(--brand); margin-top: 1.3em; margin-bottom: .4em;
+  }
+  .modal-body h1 { font-size: 1.45rem; border-bottom: 1px solid var(--line); padding-bottom: 6px; margin-top: 0; }
+  .modal-body h2 { font-size: 1.2rem; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+  .modal-body h3 { font-size: 1.05rem; }
+  .modal-body pre {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 8px;
+    padding: 12px 14px; overflow-x: auto; font-size: .88rem; position: relative;
+  }
+  .modal-body code {
+    font-family: Consolas, "Courier New", monospace; font-size: .9em;
+    background: var(--bg); padding: 2px 5px; border-radius: 4px;
+  }
+  .modal-body pre code { background: none; padding: 0; }
+  .modal-body blockquote {
+    margin: 12px 0; padding: 10px 14px; border-left: 4px solid var(--brand);
+    background: var(--brand-soft); border-radius: 0 8px 8px 0;
+  }
+  .modal-body img {
+    max-width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--line);
+    margin: 10px 0; display: block;
+  }
+  .modal-body hr { border: none; border-top: 1px solid var(--line); margin: 20px 0; }
+  .modal-body table { margin: 12px 0; min-width: 100%; }
+
   @media print {
-    nav, a.btn { display: none; }
+    nav, .btn-row, .mat-box, .modal-backdrop { display: none !important; }
     header { background: none; color: #000; padding: 0 0 12px; }
     header p { color: #333; }
     section { break-inside: avoid; border: none; padding: 0; }
@@ -80,7 +163,6 @@
   <a href="#revezamento">Revezamento</a>
   <a href="#dia1">Dia 1</a><a href="#dia2">Dia 2</a><a href="#dia3">Dia 3</a><a href="#dia4">Dia 4</a><a href="#dia5">Dia 5</a>
   <a href="#avaliacao">Avaliação</a>
-  <a href="#checklist">Checklist</a>
 </div></nav>
 
 <main>
@@ -90,18 +172,21 @@
     <div class="facts">
       <div class="fact"><b>Período</b>09/11 a 13/11/2026 (seg a sex)</div>
       <div class="fact"><b>Horário</b>08:00–16:00 · aulas até 15:45 · almoço 12:00–13:00</div>
-      <div class="fact"><b>Turma A</b>Fazer → entender (laboratório primeiro)</div>
-      <div class="fact"><b>Turma B</b>Entender → fazer (sala primeiro)</div>
+      <div class="fact"><b>Turma A · Prof. Renzo Fraga</b>Fazer → entender (laboratório primeiro)</div>
+      <div class="fact"><b>Turma B · Prof. Israel Magalhães</b>Entender → fazer (sala primeiro)</div>
     </div>
-    <a class="btn" href="https://github.com/IsraelMdc/Curso_PowerBI_Dax/blob/gh-pages/CRONOGRAMA.md">Abrir o cronograma em Markdown</a>
-    <p class="sub" style="margin-top:12px">Slides de aula (acesso restrito aos professores): <a href="https://docs.google.com/presentation/d/1EF9YTwnIJhE1y74Y4rWrBgkNtuJkHy5Yr-jDhq9KBQI/edit">Dia 1</a> · <a href="https://docs.google.com/presentation/d/1n5hAA5j8gh_5PBSiWSWA1jNnU0LsQd9sWq3XPWeEHio/edit">Dia 2</a> · <a href="https://docs.google.com/presentation/d/1-j-eqKUC7aSFCWVncrPhuGOmydcPdNsd3V_vvpYfnbM/edit">Dia 3</a> · <a href="https://docs.google.com/presentation/d/1rQ0uB3ecZxh4SwMXKSHwDD4WSrZkGRgnzAamFLGIfeo/edit">Dia 4</a> · <a href="https://docs.google.com/presentation/d/1O_VUaaP5VKYxLydsZMwh2XfZoHIwlYB6c9sPnd-vzUs/edit">Dia 5</a></p>
+    <div class="btn-row">
+      <button type="button" class="btn" onclick="openMdModal('CRONOGRAMA.md', 'Cronograma Completo do Curso')">📄 Cronograma em Markdown</button>
+      <a class="btn accent-btn" href="https://kenko2002.github.io/aulasbi/CALCULADORA_DAX.html" target="_blank" rel="noopener">⚡ Calculadora / Laboratório Interativo DAX</a>
+    </div>
+    <p class="sub" style="margin-top:12px">Slides de aula (Google Slides): <a href="https://docs.google.com/presentation/d/1EF9YTwnIJhE1y74Y4rWrBgkNtuJkHy5Yr-jDhq9KBQI/edit" target="_blank" rel="noopener">Dia 1</a> · <a href="https://docs.google.com/presentation/d/1n5hAA5j8gh_5PBSiWSWA1jNnU0LsQd9sWq3XPWeEHio/edit" target="_blank" rel="noopener">Dia 2</a> · <a href="https://docs.google.com/presentation/d/1-j-eqKUC7aSFCWVncrPhuGOmydcPdNsd3V_vvpYfnbM/edit" target="_blank" rel="noopener">Dia 3</a> · <a href="https://docs.google.com/presentation/d/1rQ0uB3ecZxh4SwMXKSHwDD4WSrZkGRgnzAamFLGIfeo/edit" target="_blank" rel="noopener">Dia 4</a> · <a href="https://docs.google.com/presentation/d/1O_VUaaP5VKYxLydsZMwh2XfZoHIwlYB6c9sPnd-vzUs/edit" target="_blank" rel="noopener">Dia 5</a></p>
   </section>
 
   <section id="revezamento">
     <h2>Revezamento do laboratório</h2>
     <p class="sub">Um único laboratório: as turmas trocam de espaço na virada de cada bloco, sem intervalos, e nunca dividem o laboratório.</p>
     <div class="table-wrap"><table>
-      <thead><tr><th>Bloco</th><th>Horário</th><th>Turma A</th><th>Turma B</th></tr></thead>
+      <thead><tr><th>Bloco</th><th>Horário</th><th>Turma A (Prof. Renzo)</th><th>Turma B (Prof. Israel)</th></tr></thead>
       <tbody>
         <tr><td>B1</td><td class="time">08:00–10:00</td><td><span class="tag lab">Lab</span>Parte 1</td><td><span class="tag sala">Sala</span>Parte 1</td></tr>
         <tr><td>B2</td><td class="time">10:00–12:00</td><td><span class="tag sala">Sala</span>Parte 1</td><td><span class="tag lab">Lab</span>Parte 1</td></tr>
@@ -128,20 +213,22 @@
       </tbody>
     </table></div>
   </section>
-
-  <!-- <section id="checklist">
-    <h2>Checklist antes do curso (até 06/11)</h2>
-    <ul>
-      <li>Power BI Desktop atualizado em todas as máquinas do laboratório do CEDTEC (Windows 64 bits).</li>
-      <li>Bases de dados fictícias do curso copiadas em pastas separadas por turma.</li>
-      <li>Demonstração de publicação no serviço do Power BI testada pelo professor.</li>
-      <li>Provas inicial e final impressas para as duas turmas.</li>
-      <li>Arquivos de checkpoint dos dias 1 a 4 preparados.</li>
-      <li>Projetor testado na sala e no laboratório.</li>
-      <li>Slides do dia abertos no Google Slides em sala e no laboratório.</li>
-    </ul>
-  </section> -->
 </main>
+
+<!-- Modal Leitor de Roteiros (.md) -->
+<div id="mdModal" class="modal-backdrop" onclick="if(event.target===this)closeMdModal()">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3 id="mdModalTitle">Roteiro</h3>
+      <div class="modal-actions">
+        <a id="mdModalRaw" class="btn secondary" style="padding:5px 10px;font-size:.8rem" href="#" target="_blank" rel="noopener">Abrir no GitHub</a>
+        <button type="button" class="modal-close" onclick="closeMdModal()">✕ Fechar</button>
+      </div>
+    </div>
+    <div id="mdModalBody" class="modal-body">Carregando...</div>
+  </div>
+</div>
+
 <footer>CEDTEC Guarapari · Power BI e DAX para Manutenção · novembro de 2026</footer>
 
 <script>
@@ -150,6 +237,9 @@ const dias = [
   { id: 'dia1', titulo: 'Dia 1 — Segunda, 09/11 — Do sistema para o Power BI',
     p1: '1.1 Inteligência de negócio nos dados da manutenção · 1.2 Componentes do Power BI e arquivo PBIX · 1.3 Interface do Power BI Desktop · 1.4 Ordem de serviço como linha de tabela',
     p2: '1.5 Importação de planilhas e arquivos CSV · 1.6 Origens de dados e modos de conexão · 2.1 Editor do Power Query e etapas aplicadas · 2.2 Tipos de dados das colunas',
+    materiais: [
+      { label: '📊 Base Principal (.xlsx)', path: 'Dataset/Aula 1/Dataset_PowerBI_Manutencao.xlsx', tipo: 'download' }
+    ],
     linhas: [
       ['08:00–09:00', [L, '<strong>Prova inicial impressa</strong> (10 questões)', 'exam'], [S, '<strong>Prova inicial impressa</strong> (10 questões)', 'exam']],
       ['09:00–10:30', [L, 'Abertura; tour guiado pela interface; primeiro gráfico e primeiro .pbix salvo'], [S, 'Abertura; 1.1 as seis OS resolvidas de cabeça; 1.2 Desktop, Serviço e Mobile; 1.3 e 1.4']],
@@ -161,6 +251,13 @@ const dias = [
   { id: 'dia2', titulo: 'Dia 2 — Terça, 10/11 — Dado limpo, modelo certo',
     p1: 'Teoria de conjuntos (40 min, no bloco de sala) · 2.3 Remoção de linhas e colunas indesejadas · 2.4 Padronização de textos e códigos de equipamento · 2.5 Colunas personalizadas e condicionais · 2.6 Mesclagem e acréscimo de consultas',
     p2: '2.7 Conversão de colunas em linhas · 2.8 Perfil e qualidade das colunas · 3.1 Tabelas fato e dimensão no esquema estrela',
+    materiais: [
+      { label: '🛠️ Roteiro Prático (Power BI)', path: 'Dataset/Aula 2/ROTEIRO_INTERACAO_DATASETS_AULA2.md', tipo: 'md', cls: 'lab-btn' },
+      { label: '📖 Guia de Explicação', path: 'Dataset/Aula 2/ROTEIRO_APOIO_EXPLICACAO_TEMAS.md', tipo: 'md', cls: 'sala-btn' },
+      { label: '📄 Exportação OS Lote 2 (.csv)', path: 'Dataset/Aula 2/Exportacao_OS_Lote2.csv', tipo: 'download' },
+      { label: '📄 Complemento 2.7 (.csv)', path: 'Dataset/Aula 2/complemento_2-7.csv', tipo: 'download' },
+      { label: '🖥️ Slides Dia 2 (.pptx)', path: 'Aulas/Power BI e DAX para Manutenção — Dia 2 · Dado limpo, modelo certo.pptx', tipo: 'download', cls: 'secondary' }
+    ],
     linhas: [
       ['08:00–10:00', [L, 'Limpeza da exportação suja: remover linhas, padronizar TAG, coluna condicional, mesclar com o cadastro'], [S, '<strong>Teoria de conjuntos</strong> (união, interseção, diferença, Venn); 2.3 a 2.6: limpeza, chave, junções como operações de conjuntos']],
       ['10:00–12:00', [S, '<strong>Teoria de conjuntos</strong> (união, interseção, diferença, Venn); 2.3 a 2.6 formalizados; junções como operações de conjuntos'], [L, 'Limpeza da exportação suja: remover linhas, padronizar TAG, coluna condicional, mesclar']],
@@ -171,6 +268,14 @@ const dias = [
   { id: 'dia3', titulo: 'Dia 3 — Quarta, 11/11 — O painel que responde perguntas',
     p1: '3.2 Relacionamentos e direção do filtro · 3.3 Hierarquias e organização dos campos · 3.4 Escolha do visual pela pergunta da manutenção · 3.5 Gráficos de barras e de linhas · 3.6 Cartão e matriz com formatação condicional',
     p2: '3.7 Segmentação de dados e interação entre visuais · 3.8 Publicação no serviço do Power BI · 3.9 Casos integrados de painel de manutenção',
+    materiais: [
+      { label: '🛠️ Roteiro Prático (Power BI)', path: 'Dataset/Aula 3/ROTEIRO_INTERACAO_DATASETS_AULA3.md', tipo: 'md', cls: 'lab-btn' },
+      { label: '📖 Guia de Explicação', path: 'Dataset/Aula 3/ROTEIRO_APOIO_EXPLICACAO_TEMAS_AULA3.md', tipo: 'md', cls: 'sala-btn' },
+      { label: '📊 Base Principal (.xlsx)', path: 'Dataset/Aula 3/Dataset_PowerBI_Manutencao.xlsx', tipo: 'download' },
+      { label: '📄 OS Março - Caso 3.9 (.csv)', path: 'Dataset/Aula 3/OS_Marco_Auditoria.csv', tipo: 'download' },
+      { label: '📄 Alocação Técnicos - Caso 3.9 (.csv)', path: 'Dataset/Aula 3/Alocacao_Tecnicos_OS.csv', tipo: 'download' },
+      { label: '🖥️ Slides Dia 3 (.pptx)', path: 'Aulas/Power BI e DAX para Manutenção — Dia 3 · O painel que responde perguntas.pptx', tipo: 'download', cls: 'secondary' }
+    ],
     linhas: [
       ['08:00–10:00', [L, 'Relacionamentos no modelo; hierarquia Área > Equipamento; colunas, barras, linhas; cartões e matriz com cor'], [S, 'Relacionamento e cardinalidade (retomando conjuntos); jogo “pergunta → visual”; empilhado × clusterizado; formatação condicional']],
       ['10:00–12:00', [S, '3.2 a 3.6 formalizados; jogo “pergunta → visual”'], [L, 'Relacionamentos; hierarquia; gráficos, cartões e matriz com cor']],
@@ -181,13 +286,22 @@ const dias = [
   { id: 'dia4', titulo: 'Dia 4 — Quinta, 12/11 — Falando DAX',
     p1: '4.1 Modelo de dados visto pelo DAX · 4.2 Colunas calculadas e medidas · 4.3 Sintaxe e funções de agregação · 4.4 Divisão segura e funções lógicas · 4.5 Variáveis e formatação das fórmulas',
     p2: '4.6 Contexto de linha e contexto de filtro · 4.7 Iteradores SUMX e AVERAGEX · 5.1 CALCULATE e a troca de filtros · 5.2 Percentual do total com ALL e REMOVEFILTERS',
+    materiais: [
+      { label: '⚡ Calculadora Interativa DAX', path: 'https://kenko2002.github.io/aulasbi/CALCULADORA_DAX.html', tipo: 'external', cls: 'accent-btn' },
+      { label: '🛠️ Roteiro Prático (Power BI)', path: 'Dataset/Aula 4/ROTEIRO_INTERACAO_DATASETS_AULA4.md', tipo: 'md', cls: 'lab-btn' },
+      { label: '📖 Guia de Explicação', path: 'Dataset/Aula 4/ROTEIRO_APOIO_EXPLICACAO_TEMAS_AULA4.md', tipo: 'md', cls: 'sala-btn' },
+      { label: '📋 Cola de DAX (1 página)', path: 'Dataset/Aula 4/COLA_DE_DAX_DIA4.md', tipo: 'md', cls: 'secondary' },
+      { label: '📊 Casos DAX Slide a Slide (.xlsx)', path: 'Dataset/Aula 4/Casos_DAX_Slide_a_Slide.xlsx', tipo: 'download' },
+      { label: '📊 Base Principal (.xlsx)', path: 'Dataset/Aula 4/Dataset_PowerBI_Manutencao.xlsx', tipo: 'download' },
+      { label: '🖥️ Slides Dia 4 (.pptx)', path: 'Aulas/Power BI e DAX para Manutenção — Dia 4 · Falando DAX.pptx', tipo: 'download', cls: 'secondary' }
+    ],
     linhas: [
       ['08:00–10:00', [L, 'Primeiras medidas: total de horas, contagem de OS, custo por hora com DIVIDE, medida com VAR'], [S, 'Medida × coluna calculada; sintaxe; agregações conferidas à mão; DIVIDE e BLANK; IF e SWITCH; VAR/RETURN']],
       ['10:00–12:00', [S, '4.1 a 4.5 formalizados; agregações conferidas à mão'], [L, 'Primeiras medidas: total de horas, contagem de OS, custo por hora com DIVIDE, medida com VAR']],
       ['13:00–14:20', [L, 'SUMX com RELATED; CALCULATE; percentual do total'], [S, 'Contexto de filtro como subconjunto de linhas; contexto de linha; iteradores; CALCULATE; REMOVEFILTERS e ALL']],
       ['14:20–15:45', [S, '4.6 a 5.2 formalizados; “Adivinhe o número”'], [L, 'SUMX com RELATED; CALCULATE; percentual do total']],
     ],
-    extras: ['<b>Atividade:</b> “Adivinhe o número” individual — antes de rodar cada medida, cada aluno prevê o resultado.', '<b>Material extra:</b> cola de DAX em uma página.', '<b>Checkpoint:</b> tabela de medidas organizada.'] },
+    extras: ['<b>Atividade:</b> “Adivinhe o número” individual — antes de rodar cada medida, cada aluno prevê o resultado.', '<b>Material extra:</b> cola de DAX em uma página + Calculadora Interativa DAX.', '<b>Checkpoint:</b> tabela de medidas organizada.'] },
   { id: 'dia5', titulo: 'Dia 5 — Sexta, 13/11 — Indicadores da manutenção',
     p1: '5.3 Tabela de datas para inteligência de tempo · 5.4 Relacionamento inativo com USERELATIONSHIP · 5.5 Acumulado no ano e comparação entre períodos · 5.6 MTBF e MTTR em medidas DAX',
     p2: '5.7 Backlog e aderência ao plano · 5.8 Custo e proporção de preventivas · 5.9 Ranking e Pareto das falhas com RANKX · 5.10 Casos integrados (discussão curta) · Prova final',
@@ -201,9 +315,28 @@ const dias = [
     fim: 'Encerramento',
     extras: ['<b>Galeria de painéis:</b> 3 a 4 painéis de alunos mostrados no projetor (10 minutos).', '<b>Pergunta de encerramento:</b> “Qual equipamento pede atenção primeiro, e por quê?”'] },
 ];
+
 const cell = ([tipo, texto, extra]) =>
   `<td${extra ? ' class="' + extra + '"' : ''}><span class="tag ${tipo}">${tipo === L ? 'Lab' : 'Sala'}</span>${texto}</td>`;
 const pausa = (h, t) => `<tr class="pause"><td class="time">${h}</td><td colspan="2">${t}</td></tr>`;
+
+const renderMateriais = (mats) => {
+  if (!mats || !mats.length) return '';
+  const btns = mats.map(m => {
+    const cls = m.cls ? `btn ${m.cls}` : 'btn';
+    if (m.tipo === 'md') {
+      const safePath = m.path.replace(/'/g, "\\'");
+      const safeLabel = m.label.replace(/'/g, "\\'");
+      return `<button type="button" class="${cls}" onclick="openMdModal('${safePath}', '${safeLabel}')">${m.label}</button>`;
+    }
+    if (m.tipo === 'external') {
+      return `<a class="${cls}" href="${m.path}" target="_blank" rel="noopener">${m.label}</a>`;
+    }
+    return `<a class="${cls}" href="${encodeURI(m.path)}" download>${m.label}</a>`;
+  }).join('');
+  return `<div class="mat-box"><span class="mat-title">📦 Materiais e Guias da Aula</span><div class="btn-row">${btns}</div></div>`;
+};
+
 document.getElementById('dias').innerHTML = dias.map(d => {
   const rows = [];
   d.linhas.forEach(([h, a, b]) => {
@@ -214,14 +347,166 @@ document.getElementById('dias').innerHTML = dias.map(d => {
   return `<section id="${d.id}">
     <h2>${d.titulo}</h2>
     <div class="parts"><p><b>Parte 1:</b> ${d.p1}</p><p><b>Parte 2:</b> ${d.p2}</p></div>
+    ${renderMateriais(d.materiais)}
     <h3>Cronograma</h3>
     <div class="table-wrap"><table>
-      <thead><tr><th>Horário</th><th>Turma A</th><th>Turma B</th></tr></thead>
+      <thead><tr><th>Horário</th><th>Turma A (Prof. Renzo)</th><th>Turma B (Prof. Israel)</th></tr></thead>
       <tbody>${rows.join('')}</tbody>
     </table></div>
     <ul>${d.extras.map(e => `<li>${e}</li>`).join('')}</ul>
   </section>`;
 }).join('');
+
+/* Renderizador leve de Markdown para os Roteiros (.md) */
+function escapeHtml(s) {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function renderInline(text, baseDir) {
+  let out = escapeHtml(text);
+  // Imagens ![alt](src)
+  out = out.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, src) => {
+    let resolved = src.trim();
+    if (resolved.startsWith('./') && baseDir) {
+      resolved = baseDir + '/' + resolved.slice(2);
+    } else if (!resolved.startsWith('http') && !resolved.startsWith('/') && baseDir) {
+      resolved = baseDir + '/' + resolved;
+    }
+    return `<img src="${encodeURI(resolved)}" alt="${alt}" loading="lazy">`;
+  });
+  // Links [label](href)
+  out = out.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    return `<a href="${href}" target="_blank" rel="noopener">${label}</a>`;
+  });
+  // Inline code `code`
+  out = out.replace(/`([^`]+)`/g, '<code>$1</code>');
+  // Bold **text**
+  out = out.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  // Italic *text*
+  out = out.replace(/(^|[^*])\*([^*]+)\*/g, '$1<em>$2</em>');
+  return out;
+}
+
+function parseMarkdown(md, baseDir) {
+  const lines = md.replace(/\r\n/g, '\n').split('\n');
+  let html = '';
+  let inCode = false, codeBuf = [];
+  let inList = false, listType = 'ul';
+  let inTable = false, tableRows = [];
+
+  const flushList = () => {
+    if (inList) { html += `</${listType}>`; inList = false; }
+  };
+  const flushTable = () => {
+    if (!inTable) return;
+    inTable = false;
+    if (!tableRows.length) return;
+    const header = tableRows[0];
+    const body = tableRows.slice(1).filter(r => !r.every(c => /^[-:\s]+$/.test(c)));
+    html += '<div class="table-wrap"><table><thead><tr>' +
+      header.map(c => `<th>${renderInline(c.trim(), baseDir)}</th>`).join('') +
+      '</tr></thead><tbody>' +
+      body.map(r => '<tr>' + r.map(c => `<td>${renderInline(c.trim(), baseDir)}</td>`).join('') + '</tr>').join('') +
+      '</tbody></table></div>';
+    tableRows = [];
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.trim().startsWith('```')) {
+      flushList(); flushTable();
+      if (!inCode) {
+        inCode = true; codeBuf = [];
+      } else {
+        html += `<pre><code>${escapeHtml(codeBuf.join('\n'))}</code></pre>`;
+        inCode = false;
+      }
+      continue;
+    }
+    if (inCode) { codeBuf.push(line); continue; }
+
+    // Tabelas Markdown
+    if (line.trim().startsWith('|') && line.trim().endsWith('|')) {
+      flushList();
+      inTable = true;
+      const cells = line.trim().slice(1, -1).split('|');
+      tableRows.push(cells);
+      continue;
+    } else if (inTable) {
+      flushTable();
+    }
+
+    if (!line.trim()) { flushList(); continue; }
+    if (/^---+$/.test(line.trim())) { flushList(); html += '<hr>'; continue; }
+
+    const hMatch = line.match(/^(#{1,4})\s+(.*)$/);
+    if (hMatch) {
+      flushList();
+      const lvl = hMatch[1].length;
+      html += `<h${lvl}>${renderInline(hMatch[2], baseDir)}</h${lvl}>`;
+      continue;
+    }
+
+    if (line.trim().startsWith('>')) {
+      flushList();
+      html += `<blockquote>${renderInline(line.replace(/^\s*>\s?/, ''), baseDir)}</blockquote>`;
+      continue;
+    }
+
+    const ulMatch = line.match(/^\s*[-*]\s+(.*)$/);
+    if (ulMatch) {
+      if (!inList || listType !== 'ul') { flushList(); html += '<ul>'; inList = true; listType = 'ul'; }
+      html += `<li>${renderInline(ulMatch[1], baseDir)}</li>`;
+      continue;
+    }
+
+    const olMatch = line.match(/^\s*\d+\.\s+(.*)$/);
+    if (olMatch) {
+      if (!inList || listType !== 'ol') { flushList(); html += '<ol>'; inList = true; listType = 'ol'; }
+      html += `<li>${renderInline(olMatch[1], baseDir)}</li>`;
+      continue;
+    }
+
+    flushList();
+    html += `<p>${renderInline(line, baseDir)}</p>`;
+  }
+  flushList(); flushTable();
+  return html;
+}
+
+async function openMdModal(path, title) {
+  const modal = document.getElementById('mdModal');
+  const body = document.getElementById('mdModalBody');
+  const titleEl = document.getElementById('mdModalTitle');
+  const rawLink = document.getElementById('mdModalRaw');
+  titleEl.textContent = title || path;
+  rawLink.href = 'https://github.com/IsraelMdc/Curso_PowerBI_Dax/blob/gh-pages/' + encodeURI(path);
+  body.innerHTML = '<p>Carregando material...</p>';
+  modal.classList.add('open');
+
+  const baseDir = path.includes('/') ? path.slice(0, path.lastIndexOf('/')) : '';
+  try {
+    let res = await fetch(encodeURI(path));
+    if (!res.ok) throw new Error('local fetch failed');
+    const md = await res.text();
+    body.innerHTML = parseMarkdown(md, baseDir);
+  } catch (_) {
+    try {
+      const ghUrl = 'https://raw.githubusercontent.com/IsraelMdc/Curso_PowerBI_Dax/gh-pages/' + encodeURI(path);
+      const res2 = await fetch(ghUrl);
+      if (!res2.ok) throw new Error('github fetch failed');
+      const md = await res2.text();
+      body.innerHTML = parseMarkdown(md, 'https://raw.githubusercontent.com/IsraelMdc/Curso_PowerBI_Dax/gh-pages/' + baseDir);
+    } catch (e) {
+      body.innerHTML = `<p>Não foi possível carregar o roteiro diretamente neste modo. <a href="${rawLink.href}" target="_blank" rel="noopener">Clique aqui para abrir no GitHub</a>.</p>`;
+    }
+  }
+}
+
+function closeMdModal() {
+  document.getElementById('mdModal').classList.remove('open');
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMdModal(); });
 </script>
 </body>
 </html>
