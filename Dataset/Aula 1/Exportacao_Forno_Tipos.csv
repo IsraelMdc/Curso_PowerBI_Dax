@@ -1,0 +1,8 @@
+﻿Numero_OS;Equipamento;Area;Tipo_Manutencao;Status;Data_Abertura_EUA;Horas_Paradas;Custo_USD
+61001;FO-01;Forno;Corretiva;Encerrada;03/05/2026;4,5;1250.50
+61002;FO-01;Forno;Preventiva;Encerrada;03/08/2026;12,25;3400.00
+61003;FO-01;Forno;Corretiva;Encerrada;03/14/2026;6,0 h;1890.75
+61004;FO-02;Forno;Corretiva;Encerrada;03/19/2026;3,5;980.00
+61005;FO-01;Forno;Preditiva;Encerrada;03/22/2026;2,0;650.00
+61006;FO-02;Forno;Preventiva;Cancelada;03/25/2026;0,0;0.00
+61007;FO-01;Forno;Corretiva;Encerrada;03/29/2026;5,5;2100.25
